@@ -8,28 +8,18 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0d1117;color:#e6edf3;font-family:system-ui,sans-serif;padding:12px;min-height:100vh}
 #app{max-width:1000px;margin:auto}
-
-/* LOGIN */
 #login{max-width:320px;margin:80px auto;text-align:center}
 #login h2{color:#d4af37;margin-bottom:20px}
 #login input{width:100%;padding:14px;border-radius:8px;border:1px solid #30363d;background:#0d1117;color:#fff;font-size:16px;margin-bottom:10px}
 #login button{width:100%;padding:14px;background:#d4af37;border:none;border-radius:8px;font-weight:bold;font-size:16px;cursor:pointer}
-
-/* TOPO */
 .topo{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
 .topo input{flex:1;min-width:120px;padding:10px 12px;border-radius:6px;border:1px solid #30363d;background:#0d1117;color:#fff;font-size:14px}
 .topo button{padding:10px 14px;border-radius:6px;border:none;font-weight:bold;font-size:13px;cursor:pointer;white-space:nowrap}
 .btn-dourado{background:#d4af37;color:#000}
 .btn-danger{background:#da3633;color:#fff}
-
-/* CONTADORES */
 .contadores{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;font-size:14px}
-
-/* GRID */
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 @media(min-width:768px){.grid{grid-template-columns:repeat(5,1fr);gap:10px}}
-
-/* CARD */
 .card{background:#161b22;border-radius:8px;padding:12px;text-align:center;cursor:pointer;border-top:4px solid #30363d;transition:.15s}
 .card:active{transform:scale(.97)}
 .card .num{font-size:22px;font-weight:bold;color:#d4af37}
@@ -47,8 +37,6 @@ body{background:#0d1117;color:#e6edf3;font-family:system-ui,sans-serif;padding:1
 .azul{color:#58a6ff}
 .alert{color:#d29922}
 .urg{color:#f85149}
-
-/* MODAL */
 #modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.88);justify-content:center;align-items:center;z-index:999}
 .mc{background:#161b22;padding:24px;border-radius:12px;width:92%;max-width:400px;max-height:85vh;overflow-y:auto}
 .mc h3{color:#d4af37;margin-bottom:12px;font-size:18px}
@@ -61,8 +49,6 @@ body{background:#0d1117;color:#e6edf3;font-family:system-ui,sans-serif;padding:1
 .mc .bt-rm{background:#da3633;color:#fff}
 .mc .bt-c{background:#30363d;color:#fff}
 .link-box{background:#0d1117;padding:10px;border-radius:6px;word-break:break-all;font-size:13px;margin:8px 0}
-
-/* CONFIRMAR */
 #confirm{display:none;text-align:center;margin-top:60px}
 #confirm .card-conf{background:#161b22;padding:30px;border-radius:12px;max-width:380px;margin:auto}
 #confirm .icone{font-size:50px;margin-bottom:10px}
@@ -70,32 +56,29 @@ body{background:#0d1117;color:#e6edf3;font-family:system-ui,sans-serif;padding:1
 </style>
 </head>
 <body>
-
 <div id="app">
 
-<!-- LOGIN -->
 <div id="login" style="text-align:center">
-  <img src="logo.png" style="height:70px;margin-bottom:15px">
-  <h2 style="color:#d4af37;margin-bottom:20px">🔐 Login</h2>  <input type="password" id="senha" placeholder="Senha do gerente">
+  <img src="logo.png" style="height:70px;margin-bottom:15px" alt="Logo">
+  <h2 style="color:#d4af37;margin-bottom:20px">Login</h2>
+  <input type="password" id="senha" placeholder="Senha do gerente">
   <button onclick="entrar()">Entrar</button>
 </div>
 
-<!-- CONFIRMAR -->
 <div id="confirm">
   <div class="card-conf" id="confirmCard"></div>
 </div>
 
-<!-- PAINEL -->
 <div id="painel" style="display:none">
-<div style="text-align:center;margin-bottom:10px">
-  <img src="logo.png" style="height:50px">
-</div>
+  <div style="text-align:center;margin-bottom:10px">
+    <img src="logo.png" style="height:50px" alt="Logo">
+  </div>
   <div class="topo">
-    <input type="text" id="busca" placeholder="🔍 Buscar nome ou nº..." oninput="montarGrid()">
+    <input type="text" id="busca" placeholder="Buscar nome ou n..." oninput="montarGrid()">
     <input type="text" id="waGer" value="553199999999" placeholder="WhatsApp Gerente" style="max-width:170px;font-size:13px">
-    <button class="btn-dourado" onclick="modalAlertas()">🔔</button>
-    <button class="btn-dourado" onclick="exportar()">📥</button>
-    <button class="btn-dourado" onclick="document.getElementById('imp').click()">📤</button>
+    <button class="btn-dourado" onclick="modalAlertas()">Alertas</button>
+    <button class="btn-dourado" onclick="exportar()">Exportar</button>
+    <button class="btn-dourado" onclick="document.getElementById('imp').click()">Importar</button>
     <input type="file" id="imp" accept=".json" style="display:none" onchange="importar(event)">
     <button class="btn-danger" onclick="sair()" style="margin-left:auto">Sair</button>
   </div>
@@ -105,19 +88,10 @@ body{background:#0d1117;color:#e6edf3;font-family:system-ui,sans-serif;padding:1
 
 </div>
 
-<!-- MODAL -->
 <div id="modal"><div class="mc" id="modalBody"></div></div>
 
 <script>
-// ========== DADOS ==========
-const CLUBES = {
-  1:'Clube Náutico Alvorada',2:'Clube Náutico Alvorada',3:'Clube Náutico Alvorada',
-  4:'Clube Náutico Alvorada',5:'Clube Náutico Alvorada',6:'Clube Náutico Alvorada',
-  7:'Clube Náutico Alvorada',8:'Clube Náutico Alvorada',9:'Clube Náutico Alvorada',
-  10:'Clube Náutico Alvorada',11:'Clube Faisão',12:'Clube Faisão',
-  13:'Clube Faisão',14:'Clube Faisão',15:'Usipa',16:'Usipa',
-  17:'Usipa',18:'Usipa',19:'Usipa',20:'Usipa'
-};
+const CLUBES = {1:'Clube N\u00e1utico Alvorada',2:'Clube N\u00e1utico Alvorada',3:'Clube N\u00e1utico Alvorada',4:'Clube N\u00e1utico Alvorada',5:'Clube N\u00e1utico Alvorada',6:'Clube N\u00e1utico Alvorada',7:'Clube N\u00e1utico Alvorada',8:'Clube N\u00e1utico Alvorada',9:'Clube N\u00e1utico Alvorada',10:'Clube N\u00e1utico Alvorada',11:'Clube Fais\u00e3o',12:'Clube Fais\u00e3o',13:'Clube Fais\u00e3o',14:'Clube Fais\u00e3o',15:'Usipa',16:'Usipa',17:'Usipa',18:'Usipa',19:'Usipa',20:'Usipa'};
 
 let db = [];
 
@@ -126,17 +100,13 @@ function initDB() {
   if (d) { db = JSON.parse(d); verificarVencidas(); return; }
   db = [];
   for (let i = 1; i <= 20; i++) {
-    db.push({
-      id: i, clube: CLUBES[i], status: 'disp',
-      nome: '', whatsapp: '', dataInicio: '', dataFim: '', token: ''
-    });
+    db.push({ id:i, clube:CLUBES[i], status:'disp', nome:'', whatsapp:'', dataInicio:'', dataFim:'', token:'' });
   }
   salvar();
 }
 
 function salvar() { localStorage.setItem('cdb20', JSON.stringify(db)); }
 
-// ========== DATA ==========
 function fmtData(d) {
   if (!d) return '-';
   let dt = new Date(d);
@@ -151,18 +121,13 @@ function diasRest(dataFim) {
 function verificarVencidas() {
   let mudou = false;
   db.forEach(c => {
-    if (c.status === 'uso' && diasRest(c.dataFim) <= 0) {
-      c.status = 'venc'; mudou = true;
-    }
+    if (c.status === 'uso' && diasRest(c.dataFim) <= 0) { c.status = 'venc'; mudou = true; }
   });
   if (mudou) salvar();
 }
 
-function gerarToken() {
-  return 't' + Date.now().toString(36) + Math.random().toString(36).substr(2,4);
-}
+function gerarToken() { return 't' + Date.now().toString(36) + Math.random().toString(36).substr(2,4); }
 
-// ========== LOGIN ==========
 function entrar() {
   if (document.getElementById('senha').value === 'admin123') {
     sessionStorage.setItem('auth','1');
@@ -171,17 +136,11 @@ function entrar() {
     initDB();
     atualizarContadores();
     montarGrid();
-  } else {
-    alert('Senha incorreta');
-  }
+  } else { alert('Senha incorreta'); }
 }
 
-function sair() {
-  sessionStorage.removeItem('auth');
-  location.reload();
-}
+function sair() { sessionStorage.removeItem('auth'); location.reload(); }
 
-// ========== GRID ==========
 function montarGrid() {
   let termo = (document.getElementById('busca').value || '').toLowerCase();
   let g = document.getElementById('grid');
@@ -190,24 +149,19 @@ function montarGrid() {
     if (!c.id.toString().includes(termo) && !c.nome.toLowerCase().includes(termo)) return;
     let card = document.createElement('div');
     card.className = 'card ' + c.status;
-    let statusLabel = c.status === 'disp' ? 'Disponível' : c.status === 'uso' ? 'Em uso' : 'Vencida';
+    let statusLabel = c.status === 'disp' ? 'Dispon\u00edvel' : c.status === 'uso' ? 'Em uso' : 'Vencida';
     let badgeClass = c.status === 'disp' ? 'badge-verde' : c.status === 'uso' ? 'badge-azul' : 'badge-cinza';
     let extra = '';
     if (c.status === 'uso') {
       let dr = diasRest(c.dataFim);
       let cor = dr > 3 ? 'verde' : dr >= 1 ? 'alert' : 'urg';
-      extra = `<div class="nome">${c.nome}</div><div class="dias ${cor}">${dr} dias</div>`;
+      extra = '<div class="nome">' + c.nome + '</div><div class="dias ' + cor + '">' + dr + ' dias</div>';
     }
     if (c.status === 'venc' && c.nome) {
-      extra = `<div class="nome" style="color:#8b949e">${c.nome}</div>`;
+      extra = '<div class="nome" style="color:#8b949e">' + c.nome + '</div>';
     }
-    card.innerHTML = `
-      <div class="num">#${String(c.id).padStart(2,'0')}</div>
-      <div class="club">${c.clube}</div>
-      <span class="badge ${badgeClass}">${statusLabel}</span>
-      ${extra}
-    `;
-    card.onclick = () => abrirModal(c);
+    card.innerHTML = '<div class="num">#' + String(c.id).padStart(2,'0') + '</div><div class="club">' + c.clube + '</div><span class="badge ' + badgeClass + '">' + statusLabel + '</span>' + extra;
+    card.onclick = function() { abrirModal(c); };
     g.appendChild(card);
   });
 }
@@ -216,58 +170,25 @@ function atualizarContadores() {
   let d = db.filter(c => c.status === 'disp').length;
   let u = db.filter(c => c.status === 'uso').length;
   let v = db.filter(c => c.status === 'venc').length;
-  document.getElementById('contadores').innerHTML = `
-    <span class="verde">🟢 Disponíveis: <b>${d}</b></span>
-    <span class="azul">🔵 Em uso: <b>${u}</b></span>
-    <span style="color:#8b949e">⚪ Vencidas: <b>${v}</b></span>
-  `;
+  document.getElementById('contadores').innerHTML = '<span class="verde">Dispon\u00edveis: <b>' + d + '</b></span> <span class="azul">Em uso: <b>' + u + '</b></span> <span style="color:#8b949e">Vencidas: <b>' + v + '</b></span>';
 }
 
-// ========== MODAIS ==========
 function abrirModal(c) {
   let m = document.getElementById('modal');
   let b = document.getElementById('modalBody');
   m.style.display = 'flex';
-
   if (c.status === 'disp') {
-    b.innerHTML = `
-      <h3>📝 Cortesia #${c.id}</h3>
-      <p style="color:#d4af37">${c.clube}</p>
-      <input type="text" id="mNome" placeholder="Nome completo da pessoa" required>
-      <input type="text" id="mWA" placeholder="WhatsApp (99) 99999-9999" oninput="mascara(this)">
-      <button class="bt-d" onclick="cadastrar(${c.id})">✅ Registrar e Gerar Link</button>
-      <button class="bt-c" onclick="fecharModal()">Cancelar</button>
-    `;
-  }
-  else if (c.status === 'uso') {
+    b.innerHTML = '<h3>Cortesia #' + c.id + '</h3><p style="color:#d4af37">' + c.clube + '</p><input type="text" id="mNome" placeholder="Nome completo"><input type="text" id="mWA" placeholder="WhatsApp (99) 99999-9999" oninput="mascara(this)"><button class="bt-d" onclick="cadastrar(' + c.id + ')">Registrar e Gerar Link</button><button class="bt-c" onclick="fecharModal()">Cancelar</button>';
+  } else if (c.status === 'uso') {
     let dr = diasRest(c.dataFim);
-    let corDr = dr > 3 ? 'class="verde"' : dr >= 1 ? 'class="alert"' : 'class="urg"';
+    let corClass = dr > 3 ? 'verde' : dr >= 1 ? 'alert' : 'urg';
     let waNum = c.whatsapp.replace(/\D/g,'');
-    let msgLembrete = encodeURIComponent('⏰ Olá ' + c.nome + '! Sua cortesia no ' + c.clube + ' (#'
-      + c.id + ') vence em ' + dr + ' dia(s), dia ' + fmtData(c.dataFim) + '.');
-    b.innerHTML = `
-      <h3>👤 ${c.nome}</h3>
-      <p><b>Cortesia:</b> #${c.id} - ${c.clube}</p>
-      <p><b>WhatsApp:</b> ${c.whatsapp}</p>
-      <p><b>Retirada:</b> ${fmtData(c.dataInicio)}</p>
-      <p><b>Vencimento:</b> ${fmtData(c.dataFim)}</p>
-      <p><b>Dias restantes:</b> <span ${corDr}>${dr <= 0 ? '⚠️ VENCIDA' : dr + ' dias'}</span></p>
-      <hr style="border-color:#30363d;margin:10px 0">
-      <button class="bt-a" onclick="window.open('https://wa.me/55${waNum}?text=${msgLembrete}','_blank')">📱 Lembrete WhatsApp</button>
-      <button class="bt-rm" onclick="liberar(${c.id})">♻️ Liberar Cortesia</button>
-      <button class="bt-c" onclick="fecharModal()">Fechar</button>
-    `;
-  }
-  else if (c.status === 'venc') {
-    b.innerHTML = `
-      <h3>⏳ Cortesia #${c.id}</h3>
-      <p style="color:#d4af37">${c.clube}</p>
-      ${c.nome ? '<p>Último usuário: ' + c.nome + '</p>' : ''}
-      <p>Status: <span style="color:#8b949e">Vencida</span></p>
-      ${c.dataFim ? '<p>Expirou em: ' + fmtData(c.dataFim) + '</p>' : ''}
-      <button class="bt-d" onclick="liberar(${c.id})">♻️ Disponibilizar Novamente</button>
-      <button class="bt-c" onclick="fecharModal()">Fechar</button>
-    `;
+    let msgLembrete = encodeURIComponent('Ola ' + c.nome + '! Sua cortesia no ' + c.clube + ' (#' + c.id + ') vence em ' + dr + ' dia(s), dia ' + fmtData(c.dataFim) + '.');
+    b.innerHTML = '<h3>' + c.nome + '</h3><p><b>Cortesia:</b> #' + c.id + ' - ' + c.clube + '</p><p><b>WhatsApp:</b> ' + c.whatsapp + '</p><p><b>Retirada:</b> ' + fmtData(c.dataInicio) + '</p><p><b>Vencimento:</b> ' + fmtData(c.dataFim) + '</p><p><b>Dias restantes:</b> <span class="' + corClass + '">' + (dr <= 0 ? 'VENCIDA' : dr + ' dias') + '</span></p><hr style="border-color:#30363d;margin:10px 0"><button class="bt-a" onclick="window.open(\'https://wa.me/55' + waNum + '?text=' + msgLembrete + '\',\'_blank\')">Lembrete WhatsApp</button><button class="bt-rm" onclick="liberar(' + c.id + ')">Liberar Cortesia</button><button class="bt-c" onclick="fecharModal()">Fechar</button>';
+  } else if (c.status === 'venc') {
+    let extraNome = c.nome ? '<p>Ultimo usuario: ' + c.nome + '</p>' : '';
+    let extraData = c.dataFim ? '<p>Expirou em: ' + fmtData(c.dataFim) + '</p>' : '';
+    b.innerHTML = '<h3>Cortesia #' + c.id + '</h3><p style="color:#d4af37">' + c.clube + '</p>' + extraNome + '<p>Status: <span style="color:#8b949e">Vencida</span></p>' + extraData + '<button class="bt-d" onclick="liberar(' + c.id + ')">Disponibilizar Novamente</button><button class="bt-c" onclick="fecharModal()">Fechar</button>';
   }
 }
 
@@ -280,41 +201,20 @@ function cadastrar(id) {
   let agora = new Date();
   let venc = new Date(); venc.setDate(agora.getDate() + 7);
   let token = gerarToken();
-
-  c.nome = nome;
-  c.whatsapp = wa;
-  c.dataInicio = agora.toISOString();
-  c.dataFim = venc.toISOString();
-  c.token = token;
-  c.status = 'uso';
+  c.nome = nome; c.whatsapp = wa; c.dataInicio = agora.toISOString(); c.dataFim = venc.toISOString();
+  c.token = token; c.status = 'uso';
   salvar();
-
-  let link = window.location.href.split('#')[0].split('?')[0]
-    + (window.location.href.includes('index.html') ? '' : '/')
-    + '#confirmar?token=' + token;
-
+  let base = window.location.href.split('#')[0].split('?')[0];
+  if (base.endsWith('/')) base = base.slice(0,-1);
+  let link = base + '#confirmar?token=' + token;
   let waNum = wa.replace(/\D/g,'');
-  let msgConvite = encodeURIComponent('Olá ' + nome + '! 🎉 Sua cortesia no ' + c.clube
-    + ' foi registrada. Confirme aqui: ' + link);
-
-  document.getElementById('modalBody').innerHTML = `
-    <h3>✅ Cortesia Registrada!</h3>
-    <p><b>${nome}</b></p>
-    <p>${c.clube} - Cortesia <b>#${c.id}</b></p>
-    <p>Válida até: <b>${fmtData(c.dataFim)}</b></p>
-    <p style="margin-top:10px"><b>Link de confirmação:</b></p>
-    <div class="link-box">${link}</div>
-    <button class="bt-d" onclick="copiar('${link}')">📋 Copiar Link</button>
-    <button class="bt-a" onclick="window.open('https://wa.me/55${waNum}?text=${msgConvite}','_blank')">📱 Enviar WhatsApp</button>
-    <button class="bt-c" onclick="fecharModal(); atualizarContadores(); montarGrid();">Fechar</button>
-  `;
+  let msgConvite = encodeURIComponent('Ola ' + nome + '! Sua cortesia no ' + c.clube + ' foi registrada. Confirme aqui: ' + link);
+  document.getElementById('modalBody').innerHTML = '<h3>Cortesia Registrada!</h3><p><b>' + nome + '</b></p><p>' + c.clube + ' - Cortesia <b>#' + c.id + '</b></p><p>Valida ate: <b>' + fmtData(c.dataFim) + '</b></p><p style="margin-top:10px"><b>Link de confirmacao:</b></p><div class="link-box">' + link + '</div><button class="bt-d" onclick="copiar(\'' + link + '\')">Copiar Link</button><button class="bt-a" onclick="window.open(\'https://wa.me/55' + waNum + '?text=' + msgConvite + '\',\'_blank\')">Enviar WhatsApp</button><button class="bt-c" onclick="fecharModal(); atualizarContadores(); montarGrid();">Fechar</button>';
   atualizarContadores();
   montarGrid();
 }
 
-function copiar(txt) {
-  navigator.clipboard.writeText(txt).then(() => alert('Link copiado! ✅'));
-}
+function copiar(txt) { navigator.clipboard.writeText(txt).then(function(){ alert('Link copiado!'); }); }
 
 function liberar(id) {
   let c = db.find(x => x.id === id);
@@ -326,47 +226,30 @@ function liberar(id) {
   montarGrid();
 }
 
-function fecharModal() {
-  document.getElementById('modal').style.display = 'none';
-}
+function fecharModal() { document.getElementById('modal').style.display = 'none'; }
 
-// ========== ALERTAS ==========
 function modalAlertas() {
   let m = document.getElementById('modal');
   let b = document.getElementById('modalBody');
   m.style.display = 'flex';
-
-  let alerts = db.filter(c => c.status === 'uso' && diasRest(c.dataFim) <= 2);
+  let alerts = db.filter(function(c){ return c.status === 'uso' && diasRest(c.dataFim) <= 2; });
   let waGer = document.getElementById('waGer').value.replace(/\D/g,'');
-
   if (alerts.length === 0) {
-    b.innerHTML = `<h3>🔔 Alertas</h3><p style="color:#3fb950;font-size:18px">✅ Nenhuma cortesia próxima do vencimento.</p><button class="bt-c" onclick="fecharModal()">Fechar</button>`;
+    b.innerHTML = '<h3>Alertas</h3><p style="color:#3fb950;font-size:18px">Nenhuma cortesia proxima do vencimento.</p><button class="bt-c" onclick="fecharModal()">Fechar</button>';
     return;
   }
-
-  let html = `<h3>🔔 Cortesias Vencendo em Breve</h3><p style="color:#d29922">${alerts.length} cortesia(s) próxima(s) do vencimento:</p>`;
-  alerts.forEach(c => {
+  let html = '<h3>Cortesias Vencendo em Breve</h3><p style="color:#d29922">' + alerts.length + ' cortesia(s) proxima(s) do vencimento:</p>';
+  alerts.forEach(function(c){
     let dr = diasRest(c.dataFim);
     let waNum = c.whatsapp.replace(/\D/g,'');
-    let msgUser = encodeURIComponent('⏰ Olá ' + c.nome + '! Sua cortesia no ' + c.clube
-      + ' (#' + c.id + ') vence em ' + dr + ' dia(s), dia ' + fmtData(c.dataFim) + '.');
-    let msgGer = encodeURIComponent('🔔 Alerta Cortesia #' + c.id + ' (' + c.clube + ') - '
-      + c.nome + ' vence em ' + dr + ' dia(s). WhatsApp: ' + c.whatsapp);
-
-    html += `<div style="background:#0d1117;padding:10px;border-radius:6px;margin:8px 0">
-      <p><b>${c.nome}</b> - ${c.clube} #${c.id}</p>
-      <p style="color:${dr > 1 ? '#d29922' : '#f85149'}">${dr} dia(s) - vence ${fmtData(c.dataFim)}</p>
-      <div style="display:flex;gap:5px">
-        <button class="bt-a" style="flex:1" onclick="window.open('https://wa.me/55${waNum}?text=${msgUser}','_blank')">📱 Usuário</button>
-        <button class="bt-d" style="flex:1" onclick="window.open('https://wa.me/55${waGer}?text=${msgGer}','_blank')">📱 Gerente</button>
-      </div>
-    </div>`;
+    let msgUser = encodeURIComponent('Ola ' + c.nome + '! Sua cortesia no ' + c.clube + ' (#' + c.id + ') vence em ' + dr + ' dia(s), dia ' + fmtData(c.dataFim) + '.');
+    let msgGer = encodeURIComponent('Alerta Cortesia #' + c.id + ' (' + c.clube + ') - ' + c.nome + ' vence em ' + dr + ' dia(s). WhatsApp: ' + c.whatsapp);
+    html += '<div style="background:#0d1117;padding:10px;border-radius:6px;margin:8px 0"><p><b>' + c.nome + '</b> - ' + c.clube + ' #' + c.id + '</p><p style="color:' + (dr > 1 ? '#d29922' : '#f85149') + '">' + dr + ' dia(s) - vence ' + fmtData(c.dataFim) + '</p><div style="display:flex;gap:5px"><button class="bt-a" style="flex:1" onclick="window.open(\'https://wa.me/55' + waNum + '?text=' + msgUser + '\',\'_blank\')">Usuario</button><button class="bt-d" style="flex:1" onclick="window.open(\'https://wa.me/55' + waGer + '?text=' + msgGer + '\',\'_blank\')">Gerente</button></div></div>';
   });
-  html += `<button class="bt-c" onclick="fecharModal()">Fechar</button>`;
+  html += '<button class="bt-c" onclick="fecharModal()">Fechar</button>';
   b.innerHTML = html;
 }
 
-// ========== EXPORT / IMPORT ==========
 function exportar() {
   let blob = new Blob([JSON.stringify(db, null, 2)], {type:'application/json'});
   let a = document.createElement('a');
@@ -382,23 +265,15 @@ function importar(e) {
   reader.onload = function(ev) {
     try {
       let data = JSON.parse(ev.target.result);
-      if (!Array.isArray(data) || data.length !== 20) {
-        alert('Arquivo inválido! Deve conter 20 cortesias.');
-        return;
-      }
-      db = data;
-      salvar();
-      verificarVencidas();
-      atualizarContadores();
-      montarGrid();
-      alert('Dados importados com sucesso! ✅');
-    } catch(e) { alert('Erro ao importar: arquivo inválido.'); }
+      if (!Array.isArray(data) || data.length !== 20) { alert('Arquivo invalido! Deve conter 20 cortesias.'); return; }
+      db = data; salvar(); verificarVencidas(); atualizarContadores(); montarGrid();
+      alert('Dados importados com sucesso!');
+    } catch(e) { alert('Erro ao importar: arquivo invalido.'); }
   };
   reader.readAsText(file);
   e.target.value = '';
 }
 
-// ========== MÁSCARA ==========
 function mascara(i) {
   let v = i.value.replace(/\D/g,'');
   if (v.length <= 2) i.value = '(' + v;
@@ -406,51 +281,28 @@ function mascara(i) {
   else i.value = '(' + v.substr(0,2) + ') ' + v.substr(2,5) + '-' + v.substr(7,4);
 }
 
-// ========== CONFIRMAÇÃO VIA LINK ==========
 function processarConfirmacao() {
   let hash = window.location.hash;
   if (!hash || !hash.includes('confirmar')) return;
   let token = hash.split('?token=')[1];
   if (!token) return;
-
   document.getElementById('login').style.display = 'none';
   document.getElementById('painel').style.display = 'none';
   document.getElementById('confirm').style.display = 'block';
-
-  let c = db.find(x => x.token === token);
+  let c = db.find(function(x){ return x.token === token; });
   let card = document.getElementById('confirmCard');
-
   if (c) {
     let dr = diasRest(c.dataFim);
-    card.innerHTML = `
-      <div class="icone">✅</div>
-      <h2>Cortesia Confirmada!</h2>
-      <p style="font-size:18px;margin:10px 0"><b>${c.nome}</b></p>
-      <p>${c.clube} - Cortesia <b>#${String(c.id).padStart(2,'0')}</b></p>
-      <p>Retirada: ${fmtData(c.dataInicio)}</p>
-      <p>Válida até: <b>${fmtData(c.dataFim)}</b></p>
-      <p style="margin-top:10px;font-size:18px">${dr > 0 ? '<span style="color:#3fb950">' + dr + ' dias restantes</span>' : '<span style="color:#f85149">Cortesia vencida</span>'}</p>
-      <p style="margin-top:15px;color:#8b949e;font-size:13px">Apresente esta tela na portaria do clube.</p>
-    `;
+    card.innerHTML = '<div class="icone">V</div><h2>Cortesia Confirmada!</h2><p style="font-size:18px;margin:10px 0"><b>' + c.nome + '</b></p><p>' + c.clube + ' - Cortesia <b>#' + String(c.id).padStart(2,'0') + '</b></p><p>Retirada: ' + fmtData(c.dataInicio) + '</p><p>Valida ate: <b>' + fmtData(c.dataFim) + '</b></p><p style="margin-top:10px;font-size:18px">' + (dr > 0 ? '<span style="color:#3fb950">' + dr + ' dias restantes</span>' : '<span style="color:#f85149">Cortesia vencida</span>') + '</p><p style="margin-top:15px;color:#8b949e;font-size:13px">Apresente esta tela na portaria do clube.</p>';
   } else {
-    card.innerHTML = `
-      <div class="icone">❌</div>
-      <h2 style="color:#f85149">Link Inválido</h2>
-      <p>Este link de confirmação não existe ou já expirou.</p>
-    `;
+    card.innerHTML = '<div class="icone">X</div><h2 style="color:#f85149">Link Invalido</h2><p>Este link de confirmacao nao existe ou ja expirou.</p>';
   }
 }
 
-// ========== INICIALIZAR ==========
 window.onload = function() {
   initDB();
   let hash = window.location.hash || '';
-
-  if (hash.includes('confirmar')) {
-    processarConfirmacao();
-    return;
-  }
-
+  if (hash.includes('confirmar')) { processarConfirmacao(); return; }
   if (sessionStorage.getItem('auth')) {
     document.getElementById('login').style.display = 'none';
     document.getElementById('painel').style.display = 'block';
@@ -460,9 +312,7 @@ window.onload = function() {
 };
 
 window.onhashchange = function() {
-  if (window.location.hash.includes('confirmar')) {
-    processarConfirmacao();
-  }
+  if (window.location.hash.includes('confirmar')) { processarConfirmacao(); }
 };
 </script>
 </body>
